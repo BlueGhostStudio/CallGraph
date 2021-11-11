@@ -1,0 +1,48 @@
+project(
+  CallGraph
+  LANGUAGES CXX
+  VERSION 1.0.0)
+
+include(GNUInstallDirs)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_BINDIR})
+
+find_package(
+  QT NAMES Qt6 Qt5
+  COMPONENTS Core WebSockets
+  REQUIRED)
+find_package(
+  Qt${QT_VERSION_MAJOR}
+  COMPONENTS Core WebSockets
+  REQUIRED)
+
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOMOC ON)
+
+add_library(CallGraph SHARED "")
+target_sources(
+  CallGraph
+  PRIVATE CallGraph_global.h callgraph.cpp
+  PUBLIC callgraph.h)
+
+set_target_properties(
+  CallGraph
+  PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR}
+             VERSION ${PROJECT_VERSION}
+             OUTPUT_NAME CallGraph
+             PUBLIC_HEADER "callgraph.h")
+
+install(TARGETS CallGraph
+        LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}
+                COMPONENT CallGraph)
+install(
+  TARGETS CallGraph
+  LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}
+          COMPONENT BGMRPC_client_dev
+          EXCLUDE_FROM_ALL
+  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}
+                COMPONENT CallGraph_dev
+                EXCLUDE_FROM_ALL)
+
+target_link_libraries(CallGraph PRIVATE Qt${QT_VERSION_MAJOR}::Core)
