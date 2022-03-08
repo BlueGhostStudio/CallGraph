@@ -14,9 +14,10 @@ public:
 
     CallGraph* nodes() { return this; }
     template <typename... Args>
-    CallGraph* nodes(const QString& name,
-                     std::function<void(CallGraph*, const QVariant&)> fun,
-                     Args... rest) {
+    CallGraph* nodes(
+        const QString& name,
+        std::function<void(QPointer<CallGraph>, const QVariant&)> fun,
+        Args... rest) {
         m_nodes[name] = fun;
         return nodes(rest...);
     }
@@ -24,7 +25,7 @@ public:
     void to(const QString& cgName, const QVariant& data = QVariant());
     void toFinal();
 
-    static CallGraph* start(const QString& next);
+    static CallGraph* start(const QString& next, QObject* parent = nullptr);
     void exec(const QVariant& data = QVariant());
 
 private:
