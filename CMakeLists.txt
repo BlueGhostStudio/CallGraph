@@ -33,7 +33,8 @@ set_target_properties(
   PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR}
              VERSION ${PROJECT_VERSION}
              OUTPUT_NAME CallGraph
-             PUBLIC_HEADER "callgraph.h")
+             PUBLIC_HEADER "callgraph.h"
+             INSTALL_RPATH_USE_LINK_PATH ON)
 
 install(TARGETS CallGraph
         LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}
