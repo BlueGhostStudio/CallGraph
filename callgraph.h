@@ -16,7 +16,7 @@ public:
     template <typename... Args>
     CallGraph* nodes(
         const QString& name,
-        std::function<void(QPointer<CallGraph>, const QVariant&)> fun,
+        std::function<void(CallGraph*, const QVariant&)> fun,
         Args... rest) {
         m_nodes[name] = fun;
         return nodes(rest...);

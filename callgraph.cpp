@@ -13,11 +13,11 @@ CallGraph::toFinal() {
 }
 
 CallGraph*
-CallGraph::start(const QString& next, QObject* parent) {
-    CallGraph* __callGraph__ = new CallGraph(parent);
+CallGraph::start(const QString& next, QObject* /*parent*/) {
+    CallGraph* __callGraph__ = new CallGraph(/*parent*/);
 
     __callGraph__->nodes("__START__",
-                         [&](QPointer<CallGraph> cg, const QVariant& data) {
+                         [&](CallGraph* cg, const QVariant& data) {
                              cg->to(next, data);
                          });
 
